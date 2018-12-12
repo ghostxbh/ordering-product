@@ -10,4 +10,6 @@ public interface ProductMapper extends JpaRepository<Product,Integer>{
 
 
     List<Product> findByStatus(Integer status);
+
+    List<Product> findByIdIn(List<Integer> idList);
 }

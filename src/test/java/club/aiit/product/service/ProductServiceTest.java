@@ -1,12 +1,14 @@
 package club.aiit.product.service;
 
 import club.aiit.product.ProductApplicationTests;
+import club.aiit.product.dto.CartDTO;
 import club.aiit.product.model.Product;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -26,5 +28,11 @@ public class ProductServiceTest extends ProductApplicationTests{
     public void findUpAll() {
         List<Product> productList = productService.findUpAll();
         Assert.assertTrue(productList.size()>0);
+    }
+
+    @Test
+    public void stock(){
+        CartDTO cartDTO = new CartDTO(1,2);
+        productService.decreaseStock(Arrays.asList(cartDTO));
     }
 }

@@ -1,5 +1,6 @@
 package club.aiit.product.controller;
 
+import club.aiit.product.dto.CartDTO;
 import club.aiit.product.model.Category;
 import club.aiit.product.model.Product;
 import club.aiit.product.service.CategoryService;
@@ -8,8 +9,7 @@ import club.aiit.product.vo.ProductVO;
 import club.aiit.product.vo.ResultVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class ProductController {
      * 3、查询类目
      * 4、构造数据
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public ResultVo<ProductVO> list() {
         //1、查询所有在架的商品
         List<Product> productList = productService.findUpAll();
@@ -66,5 +66,20 @@ public class ProductController {
             resultVo = new ResultVo(2, "fail", null);
         }
         return resultVo;
+    }
+
+    /**
+     * 获取商品列表（给订单服务调用的）
+     * @param productIdList
+     * @return
+     */
+    @PostMapping("/listForOrder")
+    public List<Product> listForOrder(@RequestBody List<Integer> productIdList){
+        return productService.findList(productIdList);
+    }
+
+    @PostMapping("/decreaseStock")
+    public void decreaseStock(@RequestBody List<CartDTO> cartDTOList){
+        productService.decreaseStock(cartDTOList);
     }
 }
